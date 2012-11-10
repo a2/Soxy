@@ -1,0 +1,26 @@
+
+SPEC CHECKSUMS: 
+  BlocksKit: 4b6039288115dda2240526e6d1e45bfe28003ef1
+  libffi: 8a1d9ba43c0c84b546b42c6f742714e73aa07ae1
+  polipo: e380d7f7ce2c9d9c1c0848071110492d7cefd5f5
+  srelay: 57d781cdc09371301aa30b0e72e1a31020c13f95
+
+EXTERNAL SOURCES: 
+  polipo: 
+    :podspec: https://raw.github.com/gist/3d61f497d3f174ee8632/polipo.podspec
+  srelay: 
+    :podspec: https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec
+
+DEPENDENCIES: 
+- BlocksKit
+- polipo (from `https://raw.github.com/gist/3d61f497d3f174ee8632/polipo.podspec')
+- srelay (from `https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec')
+
+COCOAPODS: 0.15.2
+
+PODS: 
+- BlocksKit (1.8.0): 
+  - libffi
+- libffi (3.0.11)
+- polipo (1.0.5)
+- srelay (0.4.5b5)
