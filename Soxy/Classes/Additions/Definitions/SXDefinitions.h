@@ -7,6 +7,13 @@
 //
 
 extern NSString *const SXApplicationErrorDomain;
+extern NSString *const SXHTTPProxyDomain;
+extern NSString *const SXHTTPServerDomain;
+extern NSString *const SXSOCKSProxyDomain;
+
+extern NSUInteger const SXHTTPProxyPort;
+extern NSUInteger const SXHTTPServerPort;
+extern NSUInteger const SXSOCKSProxyPort;
 
 #pragma mark - Pragma Defines
 
