@@ -12,14 +12,16 @@
 		0035E06F164ECFB400883D32 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0035E06E164ECFB400883D32 /* CoreGraphics.framework */; };
 		0035E075164ECFB400883D32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0035E073164ECFB400883D32 /* InfoPlist.strings */; };
 		0035E077164ECFB400883D32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E076164ECFB400883D32 /* main.m */; };
-		0035E07B164ECFB400883D32 /* SXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E07A164ECFB400883D32 /* SXAppDelegate.m */; };
-		0035E07D164ECFB400883D32 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E07C164ECFB400883D32 /* Default.png */; };
-		0035E07F164ECFB400883D32 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E07E164ECFB400883D32 /* Default@2x.png */; };
-		0035E081164ECFB400883D32 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E080164ECFB400883D32 /* Default-568h@2x.png */; };
 		0035E084164ECFB400883D32 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0035E082164ECFB400883D32 /* MainStoryboard_iPhone.storyboard */; };
 		0035E087164ECFB400883D32 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0035E085164ECFB400883D32 /* MainStoryboard_iPad.storyboard */; };
-		0035E08A164ECFB400883D32 /* SXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E089164ECFB400883D32 /* SXMainViewController.m */; };
-		0035E08D164ECFB400883D32 /* SXFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E08C164ECFB400883D32 /* SXFlipsideViewController.m */; };
+		0035E09E164ECFE500883D32 /* SXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E096164ECFE500883D32 /* SXAppDelegate.m */; };
+		0035E09F164ECFE500883D32 /* SXFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */; };
+		0035E0A0164ECFE500883D32 /* SXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E09D164ECFE500883D32 /* SXMainViewController.m */; };
+		0035E0A6164ECFFD00883D32 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A3164ECFFD00883D32 /* Default-568h@2x.png */; };
+		0035E0A7164ECFFD00883D32 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A4164ECFFD00883D32 /* Default.png */; };
+		0035E0A8164ECFFD00883D32 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A5164ECFFD00883D32 /* Default@2x.png */; };
+		0035E0B5164ED19200883D32 /* UIDevice+A2Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E0B4164ED19200883D32 /* UIDevice+A2Additions.m */; };
+		0035E0BB164ED1C500883D32 /* SXDefinitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E0BA164ED1C500883D32 /* SXDefinitions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,21 +29,27 @@
 		0035E06A164ECFB400883D32 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0035E06C164ECFB400883D32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0035E06E164ECFB400883D32 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		0035E072164ECFB400883D32 /* Soxy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Soxy-Info.plist"; sourceTree = "<group>"; };
+		0035E072164ECFB400883D32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0035E074164ECFB400883D32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0035E076164ECFB400883D32 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0035E078164ECFB400883D32 /* Soxy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Soxy-Prefix.pch"; sourceTree = "<group>"; };
-		0035E079164ECFB400883D32 /* SXAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXAppDelegate.h; sourceTree = "<group>"; };
-		0035E07A164ECFB400883D32 /* SXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SXAppDelegate.m; sourceTree = "<group>"; };
-		0035E07C164ECFB400883D32 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		0035E07E164ECFB400883D32 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		0035E080164ECFB400883D32 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0035E078164ECFB400883D32 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		0035E083164ECFB400883D32 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		0035E086164ECFB400883D32 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		0035E088164ECFB400883D32 /* SXMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXMainViewController.h; sourceTree = "<group>"; };
-		0035E089164ECFB400883D32 /* SXMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SXMainViewController.m; sourceTree = "<group>"; };
-		0035E08B164ECFB400883D32 /* SXFlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXFlipsideViewController.h; sourceTree = "<group>"; };
-		0035E08C164ECFB400883D32 /* SXFlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SXFlipsideViewController.m; sourceTree = "<group>"; };
+		0035E095164ECFE500883D32 /* SXAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXAppDelegate.h; sourceTree = "<group>"; };
+		0035E096164ECFE500883D32 /* SXAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXAppDelegate.m; sourceTree = "<group>"; };
+		0035E099164ECFE500883D32 /* SXFlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXFlipsideViewController.h; sourceTree = "<group>"; };
+		0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXFlipsideViewController.m; sourceTree = "<group>"; };
+		0035E09C164ECFE500883D32 /* SXMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXMainViewController.h; sourceTree = "<group>"; };
+		0035E09D164ECFE500883D32 /* SXMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXMainViewController.m; sourceTree = "<group>"; };
+		0035E0A3164ECFFD00883D32 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0035E0A4164ECFFD00883D32 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		0035E0A5164ECFFD00883D32 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		0035E0B3164ED19200883D32 /* UIDevice+A2Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+A2Additions.h"; sourceTree = "<group>"; };
+		0035E0B4164ED19200883D32 /* UIDevice+A2Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+A2Additions.m"; sourceTree = "<group>"; };
+		0035E0B7164ED1A200883D32 /* A2Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A2Common.h; sourceTree = "<group>"; };
+		0035E0B9164ED1C500883D32 /* SXDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXDefinitions.h; sourceTree = "<group>"; };
+		0035E0BA164ED1C500883D32 /* SXDefinitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXDefinitions.m; sourceTree = "<group>"; };
+		0035E0BC164ED1D400883D32 /* SXAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXAdditions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,9 +57,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0035E06B164ECFB400883D32 /* UIKit.framework in Frameworks */,
-				0035E06D164ECFB400883D32 /* Foundation.framework in Frameworks */,
 				0035E06F164ECFB400883D32 /* CoreGraphics.framework in Frameworks */,
+				0035E06D164ECFB400883D32 /* Foundation.framework in Frameworks */,
+				0035E06B164ECFB400883D32 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,9 +86,9 @@
 		0035E069164ECFB400883D32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0035E06A164ECFB400883D32 /* UIKit.framework */,
-				0035E06C164ECFB400883D32 /* Foundation.framework */,
 				0035E06E164ECFB400883D32 /* CoreGraphics.framework */,
+				0035E06C164ECFB400883D32 /* Foundation.framework */,
+				0035E06A164ECFB400883D32 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,14 +96,10 @@
 		0035E070164ECFB400883D32 /* Soxy */ = {
 			isa = PBXGroup;
 			children = (
-				0035E079164ECFB400883D32 /* SXAppDelegate.h */,
-				0035E07A164ECFB400883D32 /* SXAppDelegate.m */,
-				0035E082164ECFB400883D32 /* MainStoryboard_iPhone.storyboard */,
-				0035E085164ECFB400883D32 /* MainStoryboard_iPad.storyboard */,
-				0035E088164ECFB400883D32 /* SXMainViewController.h */,
-				0035E089164ECFB400883D32 /* SXMainViewController.m */,
-				0035E08B164ECFB400883D32 /* SXFlipsideViewController.h */,
-				0035E08C164ECFB400883D32 /* SXFlipsideViewController.m */,
+				0035E0B0164ED17B00883D32 /* Categories */,
+				0035E093164ECFE500883D32 /* Classes */,
+				0035E0A1164ECFEC00883D32 /* Storyboards */,
+				0035E0A2164ECFFD00883D32 /* Images */,
 				0035E071164ECFB400883D32 /* Supporting Files */,
 			);
 			path = Soxy;
@@ -104,15 +108,97 @@
 		0035E071164ECFB400883D32 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0035E072164ECFB400883D32 /* Soxy-Info.plist */,
+				0035E072164ECFB400883D32 /* Info.plist */,
 				0035E073164ECFB400883D32 /* InfoPlist.strings */,
 				0035E076164ECFB400883D32 /* main.m */,
-				0035E078164ECFB400883D32 /* Soxy-Prefix.pch */,
-				0035E07C164ECFB400883D32 /* Default.png */,
-				0035E07E164ECFB400883D32 /* Default@2x.png */,
-				0035E080164ECFB400883D32 /* Default-568h@2x.png */,
+				0035E078164ECFB400883D32 /* Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0035E093164ECFE500883D32 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0035E0B6164ED19F00883D32 /* Additions */,
+				0035E094164ECFE500883D32 /* App Delegate */,
+				0035E098164ECFE500883D32 /* Flipside View Controller */,
+				0035E09B164ECFE500883D32 /* Main View Controller */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		0035E094164ECFE500883D32 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				0035E095164ECFE500883D32 /* SXAppDelegate.h */,
+				0035E096164ECFE500883D32 /* SXAppDelegate.m */,
+			);
+			path = "App Delegate";
+			sourceTree = "<group>";
+		};
+		0035E098164ECFE500883D32 /* Flipside View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0035E099164ECFE500883D32 /* SXFlipsideViewController.h */,
+				0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */,
+			);
+			path = "Flipside View Controller";
+			sourceTree = "<group>";
+		};
+		0035E09B164ECFE500883D32 /* Main View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0035E09C164ECFE500883D32 /* SXMainViewController.h */,
+				0035E09D164ECFE500883D32 /* SXMainViewController.m */,
+			);
+			path = "Main View Controller";
+			sourceTree = "<group>";
+		};
+		0035E0A1164ECFEC00883D32 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				0035E082164ECFB400883D32 /* MainStoryboard_iPhone.storyboard */,
+				0035E085164ECFB400883D32 /* MainStoryboard_iPad.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		0035E0A2164ECFFD00883D32 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0035E0A3164ECFFD00883D32 /* Default-568h@2x.png */,
+				0035E0A4164ECFFD00883D32 /* Default.png */,
+				0035E0A5164ECFFD00883D32 /* Default@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		0035E0B0164ED17B00883D32 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				0035E0B3164ED19200883D32 /* UIDevice+A2Additions.h */,
+				0035E0B4164ED19200883D32 /* UIDevice+A2Additions.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		0035E0B6164ED19F00883D32 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				0035E0B7164ED1A200883D32 /* A2Common.h */,
+				0035E0B8164ED1BB00883D32 /* Definitions */,
+				0035E0BC164ED1D400883D32 /* SXAdditions.h */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		0035E0B8164ED1BB00883D32 /* Definitions */ = {
+			isa = PBXGroup;
+			children = (
+				0035E0B9164ED1C500883D32 /* SXDefinitions.h */,
+				0035E0BA164ED1C500883D32 /* SXDefinitions.m */,
+			);
+			path = Definitions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,11 +254,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0035E075164ECFB400883D32 /* InfoPlist.strings in Resources */,
-				0035E07D164ECFB400883D32 /* Default.png in Resources */,
-				0035E07F164ECFB400883D32 /* Default@2x.png in Resources */,
-				0035E081164ECFB400883D32 /* Default-568h@2x.png in Resources */,
 				0035E084164ECFB400883D32 /* MainStoryboard_iPhone.storyboard in Resources */,
 				0035E087164ECFB400883D32 /* MainStoryboard_iPad.storyboard in Resources */,
+				0035E0A6164ECFFD00883D32 /* Default-568h@2x.png in Resources */,
+				0035E0A7164ECFFD00883D32 /* Default.png in Resources */,
+				0035E0A8164ECFFD00883D32 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,9 +270,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0035E077164ECFB400883D32 /* main.m in Sources */,
-				0035E07B164ECFB400883D32 /* SXAppDelegate.m in Sources */,
-				0035E08A164ECFB400883D32 /* SXMainViewController.m in Sources */,
-				0035E08D164ECFB400883D32 /* SXFlipsideViewController.m in Sources */,
+				0035E09E164ECFE500883D32 /* SXAppDelegate.m in Sources */,
+				0035E09F164ECFE500883D32 /* SXFlipsideViewController.m in Sources */,
+				0035E0A0164ECFE500883D32 /* SXMainViewController.m in Sources */,
+				0035E0B5164ED19200883D32 /* UIDevice+A2Additions.m in Sources */,
+				0035E0BB164ED1C500883D32 /* SXDefinitions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,8 +364,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Soxy/Soxy-Prefix.pch";
-				INFOPLIST_FILE = "Soxy/Soxy-Info.plist";
+				GCC_PREFIX_HEADER = Soxy/Prefix.pch;
+				INFOPLIST_FILE = Soxy/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -287,8 +375,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Soxy/Soxy-Prefix.pch";
-				INFOPLIST_FILE = "Soxy/Soxy-Info.plist";
+				GCC_PREFIX_HEADER = Soxy/Prefix.pch;
+				INFOPLIST_FILE = Soxy/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

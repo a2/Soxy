@@ -8,8 +8,6 @@
 
 #import "SXFlipsideViewController.h"
 
-@interface SXMainViewController : UIViewController <SXFlipsideViewControllerDelegate, UIPopoverControllerDelegate>
-
-@property (strong, nonatomic) UIPopoverController *flipsidePopoverController;
+@interface SXMainViewController : UIViewController
 
 @end
