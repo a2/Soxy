@@ -49,7 +49,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="192.168.1.10:8888" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fl9-5P-bOf">
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" text="192.168.1.10:8888" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fl9-5P-bOf">
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="Zo8-XJ-MXO"/>
@@ -82,7 +82,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="192.168.1.10:8888" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2OF-TB-L2X">
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" text="192.168.1.10:8888" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2OF-TB-L2X">
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="bPM-Ec-rl0"/>
