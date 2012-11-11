@@ -15,7 +15,6 @@
 #import "SXHTTPProxyServer.h"
 #import "SXHTTPServer.h"
 #import "SXSOCKSProxyServer.h"
-#import "wwanconnect.h"
 
 static uint32_t const kSCNetworkFlagsIsDirectWWAN = (1 << 18);
 static void SXAppDelegateWWANCallback(void *context);
