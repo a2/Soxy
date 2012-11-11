@@ -16,8 +16,6 @@
 #import "SXHTTPServer.h"
 #import "SXSOCKSProxyServer.h"
 
-static uint32_t const kSCNetworkFlagsIsDirectWWAN = (1 << 18);
-static void SXAppDelegateWWANCallback(void *context);
 static void *SXProxyServerStateKVOContext;
 
 @interface SXAppDelegate () <NSStreamDelegate>
@@ -129,10 +127,3 @@ static void *SXProxyServerStateKVOContext;
 }
 
 @end
-
-static void SXAppDelegateWWANCallback(void *context)
-{
-	SXAppDelegate *self = (__bridge id) context;
-	NSLog(@"WOOT! %@", self);
-}
-
