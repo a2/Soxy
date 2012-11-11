@@ -7,22 +7,17 @@
 //
 
 extern NSString *const SXApplicationErrorDomain;
-extern NSString *const SXHTTPProxyDomain;
+extern NSString *const SXHTTPProxyServerDomain;
 extern NSString *const SXHTTPServerDomain;
-extern NSString *const SXSOCKSProxyDomain;
+extern NSString *const SXSOCKSProxyServerDomain;
 
-extern NSUInteger const SXHTTPProxyPort;
+extern NSUInteger const SXHTTPProxyServerPort;
 extern NSUInteger const SXHTTPServerPort;
-extern NSUInteger const SXSOCKSProxyPort;
+extern NSUInteger const SXSOCKSProxyServerPort;
 
 #pragma mark - Pragma Defines
 
 #define CFSafeRelease(obj) do { if (obj) CFRelease(obj), obj = NULL; } while (0)
 #define NSAssertProperty(prop) NSAssert2(self.prop, @"An instance of %s requires a non-nil %s", object_getClassName(self), #prop)
-#define RXCompare(left, right) ((left) == (right) ? NSOrderedSame : ((left) - (right))/abs((left) - (right)))
-#define RXFormatDouble(d) ([NSNumberFormatter localizedStringFromNumber: @(d) numberStyle: NSNumberFormatterDecimalStyle]) // ([[NSNumber numberWithDouble: (d)] descriptionWithLocale: [NSLocale currentLocale]])
+#define SXMustOverrideSelector(sel) [NSException raise: NSInternalInconsistencyException format: @"You must override %@ in a subclass.", NSStringFromSelector(sel)]
 #define UIApp ((UIApplication *) [UIApplication sharedApplication])
-
-#pragma mark - Functions
-
-extern void CGRectCenterInRect(CGRect *inner, CGRect outer);

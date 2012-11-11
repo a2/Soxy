@@ -9,17 +9,10 @@
 #import "SXDefinitions.h"
 
 NSString *const SXApplicationErrorDomain = @"SoxyErrorDomain";
-NSString *const SXHTTPProxyDomain = @"_soxyhttpserver._tcp.";
+NSString *const SXHTTPProxyServerDomain = @"_soxyhttpserver._tcp.";
 NSString *const SXHTTPServerDomain = @"_soxyhttpserver._tcp.";
-NSString *const SXSOCKSProxyDomain = @"_soxysocksproxy._tcp.";
+NSString *const SXSOCKSProxyServerDomain = @"_soxysocksproxy._tcp.";
 
-NSUInteger const SXHTTPProxyPort = 8888;
+NSUInteger const SXHTTPProxyServerPort = 8888;
 NSUInteger const SXHTTPServerPort = 8000;
-NSUInteger const SXSOCKSProxyPort = 1080;
-
-void CGRectCenterInRect(CGRect *inner, CGRect outer)
-{
-	NSCParameterAssert(inner != NULL);
-	(*inner).origin.x = CGRectGetMinX(outer) + 0.5 * round(CGRectGetWidth (outer) - CGRectGetWidth (*inner));
-	(*inner).origin.y = CGRectGetMinY(outer) + 0.5 * round(CGRectGetHeight(outer) - CGRectGetHeight(*inner));
-}
+NSUInteger const SXSOCKSProxyServerPort = 1080;

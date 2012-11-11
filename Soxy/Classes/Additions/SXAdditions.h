@@ -8,6 +8,8 @@
 
 #pragma mark - External Categories
 
+#import "BlocksKit.h"
+
 #pragma mark - Common
 
 #import "A2Common.h"
@@ -15,4 +17,6 @@
 
 #pragma mark - A² Categories
 
+#import "NSString+SXAdditions.h"
 #import "UIDevice+A2Additions.h"
+#import "UINavigationController+A2Additions.h"
