@@ -91,8 +91,8 @@ static void *SXProxyServerStateKVOContext;
 	__weak __typeof__(self) weakSelf = self;
 	self.reachability.reachableBlock = self.reachability.unreachableBlock = ^(Reachability *reachability) {
 		SCNetworkReachabilityFlags flags = reachability.reachabilityFlags;
-		weakSelf.hasNetwork = (flags & kSCNetworkFlagsReachable) ? YES : NO;
-		weakSelf.hasWifi = (flags & kSCNetworkFlagsIsDirectWWAN) ? NO : weakSelf.hasNetwork;
+		weakSelf.hasNetwork = (flags & kSCNetworkReachabilityFlagsReachable) ? YES : NO;
+		weakSelf.hasWifi = (flags & kSCNetworkReachabilityFlagsIsWWAN) ? NO : weakSelf.hasNetwork;
 	};
 
 	[self checkServerStatus];
