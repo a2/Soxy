@@ -24,13 +24,15 @@
 		0035E084164ECFB400883D32 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0035E082164ECFB400883D32 /* MainStoryboard_iPhone.storyboard */; };
 		0035E087164ECFB400883D32 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0035E085164ECFB400883D32 /* MainStoryboard_iPad.storyboard */; };
 		0035E09E164ECFE500883D32 /* SXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E096164ECFE500883D32 /* SXAppDelegate.m */; };
-		0035E09F164ECFE500883D32 /* SXFlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */; };
 		0035E0A0164ECFE500883D32 /* SXMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E09D164ECFE500883D32 /* SXMainViewController.m */; };
 		0035E0A6164ECFFD00883D32 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A3164ECFFD00883D32 /* Default-568h@2x.png */; };
 		0035E0A7164ECFFD00883D32 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A4164ECFFD00883D32 /* Default.png */; };
 		0035E0A8164ECFFD00883D32 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0035E0A5164ECFFD00883D32 /* Default@2x.png */; };
 		0035E0B5164ED19200883D32 /* UIDevice+A2Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E0B4164ED19200883D32 /* UIDevice+A2Additions.m */; };
 		0035E0BB164ED1C500883D32 /* SXDefinitions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035E0BA164ED1C500883D32 /* SXDefinitions.m */; };
+		008A04D6165090E6009164D8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 008A04D5165090E6009164D8 /* AVFoundation.framework */; };
+		008A04DA1650935D009164D8 /* silence.wav in Resources */ = {isa = PBXBuildFile; fileRef = 008A04D91650935D009164D8 /* silence.wav */; };
+		009C11C71650ABB5007420AC /* UIDevice+SXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 009C11C61650ABB5007420AC /* UIDevice+SXAdditions.m */; };
 		00AE4811164EE83F00F64D0A /* SXServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE4810164EE83F00F64D0A /* SXServer.m */; };
 		00AE482E164EF67200F64D0A /* SXHTTPProxyServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE482D164EF67200F64D0A /* SXHTTPProxyServer.m */; };
 		00AE4831164EF68500F64D0A /* SXSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AE4830164EF68500F64D0A /* SXSocketServer.m */; };
@@ -66,8 +68,6 @@
 		0035E086164ECFB400883D32 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		0035E095164ECFE500883D32 /* SXAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXAppDelegate.h; sourceTree = "<group>"; };
 		0035E096164ECFE500883D32 /* SXAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXAppDelegate.m; sourceTree = "<group>"; };
-		0035E099164ECFE500883D32 /* SXFlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXFlipsideViewController.h; sourceTree = "<group>"; };
-		0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXFlipsideViewController.m; sourceTree = "<group>"; };
 		0035E09C164ECFE500883D32 /* SXMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXMainViewController.h; sourceTree = "<group>"; };
 		0035E09D164ECFE500883D32 /* SXMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXMainViewController.m; sourceTree = "<group>"; };
 		0035E0A3164ECFFD00883D32 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -79,6 +79,10 @@
 		0035E0B9164ED1C500883D32 /* SXDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXDefinitions.h; sourceTree = "<group>"; };
 		0035E0BA164ED1C500883D32 /* SXDefinitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXDefinitions.m; sourceTree = "<group>"; };
 		0035E0BC164ED1D400883D32 /* SXAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXAdditions.h; sourceTree = "<group>"; };
+		008A04D5165090E6009164D8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		008A04D91650935D009164D8 /* silence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = silence.wav; sourceTree = "<group>"; };
+		009C11C51650ABB5007420AC /* UIDevice+SXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SXAdditions.h"; sourceTree = "<group>"; };
+		009C11C61650ABB5007420AC /* UIDevice+SXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+SXAdditions.m"; sourceTree = "<group>"; };
 		00AE480F164EE83F00F64D0A /* SXServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXServer.h; sourceTree = "<group>"; };
 		00AE4810164EE83F00F64D0A /* SXServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXServer.m; sourceTree = "<group>"; };
 		00AE4812164EEA1900F64D0A /* SXServerSubclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SXServerSubclass.h; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00039EB8164F2469000B3F86 /* AudioToolbox.framework in Frameworks */,
+				008A04D6165090E6009164D8 /* AVFoundation.framework in Frameworks */,
 				00039EAF164F1E75000B3F86 /* CFNetwork.framework in Frameworks */,
 				0035E06F164ECFB400883D32 /* CoreGraphics.framework in Frameworks */,
 				0035E06D164ECFB400883D32 /* Foundation.framework in Frameworks */,
@@ -174,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				00039EB7164F2469000B3F86 /* AudioToolbox.framework */,
+				008A04D5165090E6009164D8 /* AVFoundation.framework */,
 				00039EAE164F1E75000B3F86 /* CFNetwork.framework */,
 				0035E06E164ECFB400883D32 /* CoreGraphics.framework */,
 				0035E06C164ECFB400883D32 /* Foundation.framework */,
@@ -190,6 +196,7 @@
 				0035E093164ECFE500883D32 /* Classes */,
 				0035E0A1164ECFEC00883D32 /* Storyboards */,
 				0035E0A2164ECFFD00883D32 /* Images */,
+				008A04D81650935D009164D8 /* Sounds */,
 				0035E071164ECFB400883D32 /* Supporting Files */,
 				00039E9D164F149C000B3F86 /* Vendor */,
 			);
@@ -213,7 +220,6 @@
 			children = (
 				0035E0B6164ED19F00883D32 /* Additions */,
 				0035E094164ECFE500883D32 /* App Delegate */,
-				0035E098164ECFE500883D32 /* Flipside View Controller */,
 				0035E09B164ECFE500883D32 /* Main View Controller */,
 				00AE480A164EE81C00F64D0A /* Server */,
 			);
@@ -227,15 +233,6 @@
 				0035E096164ECFE500883D32 /* SXAppDelegate.m */,
 			);
 			path = "App Delegate";
-			sourceTree = "<group>";
-		};
-		0035E098164ECFE500883D32 /* Flipside View Controller */ = {
-			isa = PBXGroup;
-			children = (
-				0035E099164ECFE500883D32 /* SXFlipsideViewController.h */,
-				0035E09A164ECFE500883D32 /* SXFlipsideViewController.m */,
-			);
-			path = "Flipside View Controller";
 			sourceTree = "<group>";
 		};
 		0035E09B164ECFE500883D32 /* Main View Controller */ = {
@@ -273,6 +270,8 @@
 				00039E91164F0ABC000B3F86 /* NSString+SXAdditions.m */,
 				0035E0B3164ED19200883D32 /* UIDevice+A2Additions.h */,
 				0035E0B4164ED19200883D32 /* UIDevice+A2Additions.m */,
+				009C11C51650ABB5007420AC /* UIDevice+SXAdditions.h */,
+				009C11C61650ABB5007420AC /* UIDevice+SXAdditions.m */,
 				00039EC3164F3F02000B3F86 /* UINavigationController+A2Additions.h */,
 				00039EC4164F3F02000B3F86 /* UINavigationController+A2Additions.m */,
 			);
@@ -296,6 +295,14 @@
 				0035E0BA164ED1C500883D32 /* SXDefinitions.m */,
 			);
 			path = Definitions;
+			sourceTree = "<group>";
+		};
+		008A04D81650935D009164D8 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				008A04D91650935D009164D8 /* silence.wav */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		00AE480A164EE81C00F64D0A /* Server */ = {
@@ -391,6 +398,7 @@
 				0035E0A7164ECFFD00883D32 /* Default.png in Resources */,
 				0035E0A8164ECFFD00883D32 /* Default@2x.png in Resources */,
 				00039EBB164F25DB000B3F86 /* polipo.config in Resources */,
+				008A04DA1650935D009164D8 /* silence.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +428,6 @@
 			files = (
 				0035E077164ECFB400883D32 /* main.m in Sources */,
 				0035E09E164ECFE500883D32 /* SXAppDelegate.m in Sources */,
-				0035E09F164ECFE500883D32 /* SXFlipsideViewController.m in Sources */,
 				0035E0A0164ECFE500883D32 /* SXMainViewController.m in Sources */,
 				0035E0B5164ED19200883D32 /* UIDevice+A2Additions.m in Sources */,
 				0035E0BB164ED1C500883D32 /* SXDefinitions.m in Sources */,
@@ -433,6 +440,7 @@
 				00039EAA164F177A000B3F86 /* SXHTTPServer.m in Sources */,
 				00039EAD164F17A8000B3F86 /* SXSOCKSProxyServer.m in Sources */,
 				00039EC5164F3F02000B3F86 /* UINavigationController+A2Additions.m in Sources */,
+				009C11C71650ABB5007420AC /* UIDevice+SXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Pandamonia LLC. All rights reserved.
 //
 
-#import "SXFlipsideViewController.h"
-
 @interface SXMainViewController : UIViewController
 
 #pragma mark - Outlets
@@ -28,7 +26,6 @@
 - (IBAction) handleAddressLabelTapped: (UITapGestureRecognizer *) tapGesture;
 - (IBAction) share: (id) sender;
 - (IBAction) toggleHTTP: (id) sender;
-- (IBAction) togglePopover: (id) sender;
 - (IBAction) toggleSOCKS: (id) sender;
 
 @end

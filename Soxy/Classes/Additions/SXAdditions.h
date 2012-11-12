@@ -19,4 +19,5 @@
 
 #import "NSString+SXAdditions.h"
 #import "UIDevice+A2Additions.h"
+#import "UIDevice+SXAdditions.h"
 #import "UINavigationController+A2Additions.h"

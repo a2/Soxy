@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="iWE-Ud-j1K">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="iWE-Ud-j1K">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--Flipside View Controller - Info-->
-        <scene sceneID="9">
-            <objects>
-                <viewController id="6" customClass="SXFlipsideViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="7">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Info" id="ma5-fQ-Czc">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="Kd4-ta-YOo">
-                            <connections>
-                                <action selector="done:" destination="6" id="Myv-PS-pcc"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1846" y="182"/>
-        </scene>
         <!--Main View Controller - Soxy-->
         <scene sceneID="Tm0-RH-wYD">
             <objects>
@@ -126,19 +105,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dde-lp-PCd">
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
-                                <state key="normal">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <segue destination="pTh-tZ-aXV" kind="modal" identifier="DisplayFlipside" modalTransitionStyle="flipHorizontal" id="exO-4K-N9i"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KxU-SQ-A5I">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -191,9 +157,7 @@
                             <constraint firstItem="nrw-Se-QW4" firstAttribute="leading" secondItem="tAm-4D-pIP" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="mH6-ER-BUd"/>
                             <constraint firstAttribute="trailing" secondItem="nrw-Se-QW4" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ng3-Sn-KJo"/>
                             <constraint firstItem="kaj-Lb-vg2" firstAttribute="leading" secondItem="cdC-wV-7qL" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="olO-TM-317"/>
-                            <constraint firstAttribute="trailing" secondItem="Dde-lp-PCd" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="t8v-Gy-4kl"/>
                             <constraint firstItem="tcy-QN-BUW" firstAttribute="top" secondItem="zCj-tC-f05" secondAttribute="bottom" priority="500" constant="20" type="user" id="xnT-ma-YD1"/>
-                            <constraint firstAttribute="bottom" secondItem="Dde-lp-PCd" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="yhP-BK-T1T"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Soxy" id="5Br-Hc-BDK">
@@ -247,34 +211,10 @@
             </objects>
             <point key="canvasLocation" x="566" y="182"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ive-ru-Ktx">
-            <objects>
-                <navigationController id="pTh-tZ-aXV" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="dXy-v4-XaJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="6" kind="relationship" relationship="rootViewController" id="iRb-Ta-xcU"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3lc-ye-BCq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1422" y="182"/>
-        </scene>
     </scenes>
     <classes>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="SXFlipsideViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SXFlipsideViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="done:"/>
-            </relationships>
         </class>
         <class className="SXMainViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SXMainViewController.h"/>

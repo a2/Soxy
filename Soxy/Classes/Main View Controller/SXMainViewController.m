@@ -18,7 +18,7 @@ static NSString *const SXMainViewControllerShowsProxyAutoConfigKey = @"MainViewC
 
 static void *SXSOCKSProxyServerConnectionCountKVOContext;
 
-@interface SXMainViewController () <SXFlipsideViewControllerDelegate, UIPopoverControllerDelegate>
+@interface SXMainViewController ()
 
 @property (nonatomic) BOOL showsProxyAutoConfig;
 @property (nonatomic, getter = isApplicationActive) BOOL applicationActive;
@@ -28,7 +28,7 @@ static void *SXSOCKSProxyServerConnectionCountKVOContext;
 @property (nonatomic, strong) NSTimer *socksProxyInfoTimer;
 @property (nonatomic, strong) NSTimer *updateTransferTimer;
 @property (nonatomic, strong) TTTUnitOfInformationFormatter *unitOfInformationFormatter;
-@property (nonatomic, strong) UIPopoverController *flipsidePopoverController;
+@property (nonatomic, strong) UIPopoverController *activityPopoverController;
 
 - (void) sharedInit;
 
@@ -102,7 +102,8 @@ static void *SXSOCKSProxyServerConnectionCountKVOContext;
 }
 - (void) updateLabels
 {
-	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+//	NSString *hostName = [[NSProcessInfo processInfo] hostName];
+	NSString *hostName = [[UIDevice currentDevice] IPAddressForInterface: @"en0"];
 	
 	if (self.showsProxyAutoConfig)
 	{
@@ -136,7 +137,7 @@ static void *SXSOCKSProxyServerConnectionCountKVOContext;
 		self.socksAddressLabel.alpha = 0.5;
 		[[self.socksAddressLabel.gestureRecognizers lastObject] setEnabled: NO];
 		
-		self.socksConnectionCountLabel.text = nil;
+		self.socksConnectionCountLabel.text = @"0 connections";
 		
 		[self.socksProxyInfoTimer invalidate];
 		self.socksProxyInfoTimer = nil;
@@ -198,47 +199,40 @@ static void *SXSOCKSProxyServerConnectionCountKVOContext;
 }
 - (IBAction) share: (id) sender
 {
-	NSArray *activityItems = @[  ];
-	UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems: activityItems applicationActivities: nil];
-	[self presentViewController: activityView animated: YES completion: NULL];
-
+	if (self.activityPopoverController)
+	{
+		[self.activityPopoverController dismissPopoverAnimated: YES];
+		self.activityPopoverController = nil;
+		return;
+	}
+	
+	NSString *string = [NSString stringWithFormat: @"HTTP: %@\nSOCKS: %@", self.httpAddressLabel.text, self.socksAddressLabel.text];
+	UIActivityViewController *activityView = [[UIActivityViewController alloc] initWithActivityItems: @[ string ] applicationActivities: nil];
+	if ([UIDevice isPhone])
+	{
+		[self presentViewController: activityView animated: YES completion: NULL];
+	}
+	else
+	{
+		UIPopoverController *popoverController = [[UIPopoverController alloc] initWithContentViewController: activityView];
+		popoverController.passthroughViews = nil;
+		[popoverController presentPopoverFromBarButtonItem: sender permittedArrowDirections: UIPopoverArrowDirectionAny animated: YES];
+		self.activityPopoverController = popoverController;
+		
+		activityView.completionHandler = ^(NSString *activityType, BOOL completed) {
+			[popoverController dismissPopoverAnimated: YES];
+		};
+	}
 }
 - (IBAction) toggleHTTP: (UISwitch *) sender
 {
 	[[NSUserDefaults standardUserDefaults] setBool: sender.on forKey: SXHTTPProxyServerOnKey];
 	[self updateHTTPProxy];
 }
-- (IBAction) togglePopover: (id) sender
-{
-    if (self.flipsidePopoverController)
-	{
-        [self.flipsidePopoverController dismissPopoverAnimated: YES];
-        self.flipsidePopoverController = nil;
-    }
-	else
-	{
-        [self performSegueWithIdentifier: @"DisplayFlipside" sender:sender];
-    }
-}
 - (IBAction) toggleSOCKS: (UISwitch *) sender
 {
 	[[NSUserDefaults standardUserDefaults] setBool: sender.on forKey: SXSOCKSProxyServerOnKey];
 	[self updateSocksProxy];
-}
-
-#pragma mark - Flipside View Controller Delegate
-
-- (void) flipsideViewControllerDidFinish: (SXFlipsideViewController *) controller
-{
-	if ([UIDevice isPhone])
-	{
-        [self dismissViewControllerAnimated: YES completion: NULL];
-	}
-    else
-	{
-        [self.flipsidePopoverController dismissPopoverAnimated: YES];
-        self.flipsidePopoverController = nil;
-    }
 }
 
 #pragma mark - Notification Observation
@@ -284,45 +278,12 @@ static void *SXSOCKSProxyServerConnectionCountKVOContext;
 	}
 }
 
-#pragma mark - Popover Controller Delegate
-
-- (void) popoverControllerDidDismissPopover: (UIPopoverController *) popoverController
-{
-    self.flipsidePopoverController = nil;
-}
-
 #pragma mark - View Lifecycle
 
 - (void) didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (void) prepareForSegue: (UIStoryboardSegue *) segue sender: (id) sender
-{
-    if ([segue.identifier isEqualToString: @"DisplayFlipside"])
-	{
-		SXFlipsideViewController *flipsideView;
-		
-		if ([UIDevice isPhone])
-		{
-			UINavigationController *navigationController = A2_STATIC_CAST(UINavigationController, segue.destinationViewController);
-			flipsideView = A2_STATIC_CAST(SXFlipsideViewController, navigationController.rootViewController);
-		}
-		else
-		{
-			flipsideView = A2_STATIC_CAST(SXFlipsideViewController, segue.destinationViewController);
-		}
-
-		flipsideView.delegate = self;
-
-        if ([UIDevice isPad])
-		{
-            UIPopoverController *popoverController = A2_STATIC_CAST(UIStoryboardPopoverSegue, segue).popoverController;
-            self.flipsidePopoverController = popoverController;
-            popoverController.delegate = self;
-        }
-    }
 }
 - (void) viewDidAppear: (BOOL) animated
 {

@@ -7,6 +7,7 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
@@ -23,6 +24,7 @@ static void *SXProxyServerStateKVOContext;
 @property (nonatomic) BOOL hasNetwork;
 @property (nonatomic) BOOL hasWifi;
 @property (nonatomic, getter = isServerRunning) BOOL serverRunning;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, strong) Reachability *reachability;
 
 @end
@@ -60,13 +62,48 @@ static void *SXProxyServerStateKVOContext;
 	if (serverRunning == _serverRunning)
 		return;
 	
+	AVAudioSession *session = [AVAudioSession sharedInstance];
+	NSError *error = nil;
+	
 	if (serverRunning)
 	{
 		[[SXHTTPServer sharedServer] start];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(audioSessionInterruption:) name: AVAudioSessionInterruptionNotification object: session];
+		
+		if (![session setCategory: AVAudioSessionCategoryPlayback withOptions: AVAudioSessionCategoryOptionMixWithOthers error: &error])
+			A2LogError(error);
+		
+		if (![session setActive: YES error: &error])
+			A2LogError(error);
+	
+		NSURL *url = [[NSBundle mainBundle] URLForResource: @"silence" withExtension: @"wav"];
+		AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL: url error: &error];
+		if (!audioPlayer)
+			A2LogError(error);
+		
+		audioPlayer.numberOfLoops = -1;
+		audioPlayer.volume = 0.0;
+		if (![audioPlayer prepareToPlay])
+			A2LogError(nil);
+		
+		if (![audioPlayer play])
+			A2LogError(nil);
+		
+		self.audioPlayer = audioPlayer;
 	}
 	else
 	{
 		[[SXHTTPServer sharedServer] stop];
+		
+		[self.audioPlayer stop];
+		self.audioPlayer = nil;
+		
+		[[NSNotificationCenter defaultCenter] removeObserver: self name: AVAudioSessionInterruptionNotification object: session];
+		
+		NSError *error;
+		if (![session setActive: NO error: &error])
+			A2LogError(error);
 	}
 	
 	_serverRunning = serverRunning;
@@ -90,9 +127,8 @@ static void *SXProxyServerStateKVOContext;
 	
 	__weak __typeof__(self) weakSelf = self;
 	self.reachability.reachableBlock = self.reachability.unreachableBlock = ^(Reachability *reachability) {
-		SCNetworkReachabilityFlags flags = reachability.reachabilityFlags;
-		weakSelf.hasNetwork = (flags & kSCNetworkReachabilityFlagsReachable) ? YES : NO;
-		weakSelf.hasWifi = (flags & kSCNetworkReachabilityFlagsIsWWAN) ? NO : weakSelf.hasNetwork;
+		weakSelf.hasNetwork = reachability.isReachable;
+		weakSelf.hasWifi = reachability.isReachableViaWiFi;
 	};
 
 	[self checkServerStatus];
@@ -124,6 +160,17 @@ static void *SXProxyServerStateKVOContext;
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 	[[SXHTTPProxyServer sharedServer] removeObserver: self forKeyPath: @"state" context: &SXProxyServerStateKVOContext];
 	[[SXSOCKSProxyServer sharedServer] removeObserver: self forKeyPath: @"state" context: &SXProxyServerStateKVOContext];
+}
+
+#pragma mark - Notification Observation
+
+- (void) audioSessionInterruption: (NSNotification *) note
+{
+	AVAudioSessionInterruptionType interruptionType = [note.userInfo[AVAudioSessionInterruptionTypeKey] unsignedIntegerValue];
+	NSError *error = nil;
+	
+	if (interruptionType == AVAudioSessionInterruptionTypeEnded && ![[AVAudioSession sharedInstance] setActive: YES error: &error])
+		A2LogError(error);
 }
 
 @end
