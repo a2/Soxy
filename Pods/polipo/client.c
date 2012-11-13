@@ -34,7 +34,7 @@ httpAcceptAgain(TimeEventHandlerPtr event)
         newevent = schedule_accept(fd, httpAccept, NULL);
         if(newevent == NULL) {
             do_log(L_ERROR, "Couldn't schedule accept.\n");
-            polipo_exit();
+            polipoExit();
         }
     }
     return 1;
@@ -64,12 +64,12 @@ httpAccept(int fd, FdEventHandlerPtr event, AcceptRequestPtr request)
                                           sizeof(request->fd), &request->fd);
                 if(!again) {
                     do_log(L_ERROR, "Couldn't schedule accept -- aborting.\n");
-                    polipo_exit();
+                    polipoExit();
                 }
             }
             return 1;
         } else {
-            polipo_exit();
+            polipoExit();
             return 1;
         }
     }
@@ -209,7 +209,7 @@ httpClientFinish(HTTPConnectionPtr connection, int s)
         assert(connection->fd > 0);
         connection->serviced++;
         httpSetTimeout(connection, clientTimeout);
-        if(!connection->flags & CONN_READER) {
+        if(!(connection->flags & CONN_READER)) {
             if(connection->reqlen == 0)
                 httpConnectionDestroyReqbuf(connection);
             else if((connection->flags & CONN_BIGREQBUF) &&
@@ -306,7 +306,7 @@ httpClientDelayedShutdown(HTTPConnectionPtr connection)
         if(!handler) {
             do_log(L_ERROR, 
                    "Couldn't schedule delayed shutdown -- aborting.\n");
-            polipo_exit();
+            polipoExit();
         }
     }
     return 1;
@@ -390,21 +390,6 @@ httpClientHandler(int status,
     if(i >= 0) {
         connection->reqbegin = i;
         httpClientHandlerHeaders(event, request, connection);
-        return 1;
-    }
-
-    if(status) {
-        if(connection->reqlen > 0) {
-            if(connection->serviced <= 0)
-                do_log(L_ERROR, "Client dropped connection.\n");
-            else
-                do_log(D_CLIENT_CONN, "Client dropped idle connection.\n");
-        }
-        connection->flags &= ~CONN_READER;
-        if(!connection->request)
-            httpClientFinish(connection, 2);
-        else
-            pokeFdEvent(connection->fd, -EDOGRACEFUL, POLLOUT);
         return 1;
     }
 
@@ -978,7 +963,7 @@ httpClientDiscardBody(HTTPConnectionPtr connection)
     if(connection->bodylen < 0)
         goto fail;
 
-    if(connection->bodylen + connection->reqbegin < connection->reqlen) {
+    if(connection->bodylen < connection->reqlen - connection->reqbegin) {
         connection->reqbegin += connection->bodylen;
         connection->bodylen = 0;
     } else {
@@ -1261,7 +1246,8 @@ httpClientNoticeRequest(HTTPRequestPtr request, int novalidate)
     conditional =
         conditional && !(request->object->cache_control & CACHE_MISMATCH);
 
-    request->object->flags |= OBJECT_VALIDATING;
+    if(!(request->object->flags & OBJECT_INPROGRESS))
+        request->object->flags |= OBJECT_VALIDATING;
     rc = request->object->request(request->object,
                                   conditional ? METHOD_CONDITIONAL_GET : 
                                   request->method,
@@ -1888,8 +1874,11 @@ httpServeChunk(HTTPConnectionPtr connection)
     int to, len, len2, end;
     int rc;
 
+    /* This must be called with chunk i locked. */
+    assert(object->chunks[i].locked > 0);
+
     if(object->flags & OBJECT_ABORTED)
-        goto fail_no_unlock;
+        goto fail;
 
     if(object->length >= 0 && request->to >= 0)
         to = MIN(request->to, object->length);
@@ -1900,7 +1889,6 @@ httpServeChunk(HTTPConnectionPtr connection)
     else
         to = -1;
 
-    lockChunk(object, i);
     len = 0;
     if(i < object->numchunks)
         len = object->chunks[i].size - j;
@@ -2025,7 +2013,6 @@ httpServeChunk(HTTPConnectionPtr connection)
 
  fail:
     unlockChunk(object, i);
- fail_no_unlock:
     if(request->chandler)
         unregisterConditionHandler(request->chandler);
     request->chandler = NULL;
@@ -2057,8 +2044,6 @@ httpServeObjectHandler(int status, ConditionHandlerPtr chandler)
     HTTPConnectionPtr connection = *(HTTPConnectionPtr*)chandler->data;
     HTTPRequestPtr request = connection->request;
     int rc;
-
-    unlockChunk(request->object, connection->offset / CHUNK_SIZE);
 
     if((request->object->flags & OBJECT_ABORTED) || status < 0) {
         shutdown(connection->fd, 1);
@@ -2139,6 +2124,8 @@ httpServeObjectStreamHandlerCommon(int kind, int status,
         httpClientFinish(connection, 0);
     else {
         httpConnectionDestroyBuf(connection);
+        lockChunk(connection->request->object,
+                  connection->offset / CHUNK_SIZE);
         httpServeChunk(connection);
     }
     return 1;

@@ -269,12 +269,12 @@ int serv_loop()
     getsockname(cs, &si.myc.addr.sa, (socklen_t *)&len);
     si.myc.len = len;
 
-    getnameinfo(&si.prc.addr.sa, si.prc.len,
+    error = getnameinfo(&si.prc.addr.sa, si.prc.len,
 			client.addr, sizeof(client.addr),
 			NULL, 0,
 			NI_NUMERICHOST);
     if (resolv_client) {
-      getnameinfo(&si.prc.addr.sa, si.prc.len,
+      error = getnameinfo(&si.prc.addr.sa, si.prc.len,
 			  client.name, sizeof(client.name),
 			  NULL, 0, 0);
       msg_out(norm, "%s[%s] connected", client.name, client.addr);
@@ -362,12 +362,12 @@ int inetd_service(int cs)
   getpeername(cs, &si.prc.addr.sa, (socklen_t *)&len);
   si.prc.len = len;
 
-  getnameinfo(&si.prc.addr.sa, si.prc.len,
+  error = getnameinfo(&si.prc.addr.sa, si.prc.len,
 		      client.addr, sizeof(client.addr),
 		      NULL, 0,
 		      NI_NUMERICHOST);
   if (resolv_client) {
-    getnameinfo(&si.prc.addr.sa, si.prc.len,
+    error = getnameinfo(&si.prc.addr.sa, si.prc.len,
 			client.name, sizeof(client.name),
 			NULL, 0, 0);
     msg_out(norm, "%s[%s] connected", client.name, client.addr);
@@ -393,11 +393,7 @@ int inetd_service(int cs)
   return(0);
 }
 
-#if __IPHONE_2_0
-int srelay(int ac, char **av)
-#else
-int main(int ac, char **av)
-#endif
+int srelay_main(int ac, char **av)
 {
   int     ch, i=0;
   pid_t   pid;

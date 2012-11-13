@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2006 by Juliusz Chroboczek
+Copyright (c) 2003-2010 by Juliusz Chroboczek
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ DiskCacheEntryPtr diskEntries = NULL, diskEntriesLast = NULL;
 int numDiskEntries = 0;
 int diskCacheDirectoryPermissions = 0700;
 int diskCacheFilePermissions = 0600;
-int diskCacheWriteoutOnClose = (32 * 1024);
+int diskCacheWriteoutOnClose = (64 * 1024);
 
 int maxDiskCacheEntrySize = -1;
 
@@ -49,7 +49,7 @@ int preciseExpiry = 0;
 
 static DiskCacheEntryRec negativeEntry = {
     NULL, NULL,
-    -1, -1, -1, -1, 0, 0, 0, NULL, NULL
+    -1, -1, -1, -1, 0, 0, NULL, NULL
 };
 
 #ifndef LOCAL_ROOT
@@ -128,9 +128,17 @@ checkRoot(AtomPtr root)
     if(!root || root->length == 0)
         return 0;
 
+#ifdef WIN32  /* Require "x:/" or "x:\\" */
+    rc = isalpha(root->string[0]) && (root->string[1] == ':') &&
+         ((root->string[2] == '/') || (root->string[2] == '\\'));
+    if(!rc) {
+        return -2;
+    }
+#else
     if(root->string[0] != '/') {
         return -2;
     }
+#endif
 
     rc = stat(root->string, &ss);
     if(rc < 0)
@@ -358,11 +366,15 @@ urlDirname(char *buf, int n, const char *url, int len)
     int i, j;
     if(len < 8)
         return -1;
-    if(memcmp(url, "http://", 7) != 0)
+    if(lwrcmp(url, "http://", 7) != 0)
         return -1;
 
     if(diskCacheRoot == NULL ||
-       diskCacheRoot->length <= 0 || diskCacheRoot->string[0] != '/')
+       diskCacheRoot->length <= 0
+#ifndef WIN32
+       || diskCacheRoot->string[0] != '/'
+#endif
+       )
         return -1;
 
     if(n <= diskCacheRoot->length)
@@ -1132,12 +1144,12 @@ objectHasDiskEntry(ObjectPtr object)
 }
 
 static DiskCacheEntryPtr
-makeDiskEntry(ObjectPtr object, int writeable, int create)
+makeDiskEntry(ObjectPtr object, int create)
 {
     DiskCacheEntryPtr entry = NULL;
     char buf[1024];
     int fd = -1;
-    int negative = 0, isWriteable = 0, size = -1, name_len = -1;
+    int negative = 0, size = -1, name_len = -1;
     char *name = NULL;
     off_t offset = -1;
     int body_offset = -1;
@@ -1145,8 +1157,8 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
     int local = (object->flags & OBJECT_LOCAL) != 0;
     int dirty = 0;
 
-    if(local && (writeable || create))
-        return NULL;
+   if(local && create)
+       return NULL;
 
     if(!local && !(object->flags & OBJECT_PUBLIC))
         return NULL;
@@ -1164,7 +1176,7 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
     if(object->disk_entry) {
         entry = object->disk_entry;
         CHECK_ENTRY(entry);
-        if(entry != &negativeEntry && (!writeable || entry->writeable)) {
+        if(entry != &negativeEntry) {
             /* We'll keep the entry -- put it at the front. */
             if(entry != diskEntries && entry != &negativeEntry) {
                 entry->previous->next = entry->next;
@@ -1197,14 +1209,8 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
             return NULL;
         name_len = urlFilename(buf, 1024, object->key, object->key_size);
         if(name_len < 0) return NULL;
-        if(!negative) {
-            isWriteable = 1;
+        if(!negative)
             fd = open(buf, O_RDWR | O_BINARY);
-            if(fd < 0 && !writeable && errno == EACCES) {
-                writeable = 0;
-                fd = open(buf, O_RDONLY | O_BINARY);
-            }
-        }
         if(fd >= 0) {
             rc = validateEntry(object, fd, &body_offset, &offset);
             if(rc >= 0) {
@@ -1224,7 +1230,6 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
 
         if(fd < 0 && create && name_len > 0 && 
            !(object->flags & OBJECT_INITIAL)) {
-            isWriteable = 1;
             fd = createFile(buf, diskCacheRoot->length);
             if(fd < 0)
                 return NULL;
@@ -1262,7 +1267,6 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
             localFilename(buf, 1024, object->key, object->key_size);
         if(name_len < 0)
             return NULL;
-        isWriteable = 0;
         fd = open(buf, O_RDONLY | O_BINARY);
         if(fd >= 0) {
             if(validateEntry(object, fd, &body_offset, NULL) < 0) {
@@ -1303,7 +1307,6 @@ makeDiskEntry(ObjectPtr object, int writeable, int create)
     entry->offset = offset;
     entry->size = size;
     entry->metadataDirty = dirty;
-    entry->writeable = isWriteable;
 
     entry->next = diskEntries;
     if(diskEntries)
@@ -1342,7 +1345,7 @@ rewriteEntry(ObjectPtr object)
         close(fd);
         return -1;
     }
-    entry = makeDiskEntry(object, 1, 1);
+    entry = makeDiskEntry(object, 1);
     if(!entry) {
         close(fd);
         return -1;
@@ -1415,7 +1418,7 @@ destroyDiskEntry(ObjectPtr object, int d)
     assert(!entry || !entry->local || !d);
 
     if(d && !entry)
-        entry = makeDiskEntry(object, 1, 0);
+        entry = makeDiskEntry(object, 0);
 
     CHECK_ENTRY(entry);
 
@@ -1441,13 +1444,17 @@ destroyDiskEntry(ObjectPtr object, int d)
     } else {
         if(entry && entry->metadataDirty)
             writeoutMetadata(object);
-        makeDiskEntry(object, 1, 0);
+        makeDiskEntry(object, 0);
         /* rewriteDiskEntry may change the disk entry */
         entry = object->disk_entry;
         if(entry == NULL || entry == &negativeEntry)
             return 0;
-        if(entry->writeable && diskCacheWriteoutOnClose > 0)
+        if(diskCacheWriteoutOnClose > 0) {
             reallyWriteoutToDisk(object, -1, diskCacheWriteoutOnClose);
+            entry = object->disk_entry;
+            if(entry == NULL || entry == &negativeEntry)
+                return 0;
+        }
     }
  again:
     rc = close(entry->fd);
@@ -1483,7 +1490,7 @@ destroyDiskEntry(ObjectPtr object, int d)
 ObjectPtr 
 objectGetFromDisk(ObjectPtr object)
 {
-    DiskCacheEntryPtr entry = makeDiskEntry(object, 0, 0);
+    DiskCacheEntryPtr entry = makeDiskEntry(object, 0);
     if(!entry) return NULL;
     return object;
 }
@@ -1535,7 +1542,7 @@ objectFillFromDisk(ObjectPtr object, int offset, int chunks)
 
     /* This has the side-effect of revalidating the entry, which is
        what makes HEAD requests work. */
-    entry = makeDiskEntry(object, 0, 0);
+    entry = makeDiskEntry(object, 0);
     if(!entry)
         return 0;
                 
@@ -1666,7 +1673,7 @@ reallyWriteoutToDisk(ObjectPtr object, int upto, int max)
     if((object->flags & OBJECT_DISK_ENTRY_COMPLETE) && !object->disk_entry)
         return 0;
 
-    entry = makeDiskEntry(object, 1, 1);
+    entry = makeDiskEntry(object, 1);
     if(!entry) return 0;
 
     assert(!entry->local);
@@ -1686,25 +1693,14 @@ reallyWriteoutToDisk(ObjectPtr object, int upto, int max)
     if(entry->size >= upto)
         goto done;
 
-    if(!entry->writeable) {
-        entry = makeDiskEntry(object, 1, 1);
-        if(!entry)
-            return 0;
-        if(!entry->writeable)
-            return 0;
-        diskEntrySize(object);
-        if(entry->size < 0)
-            return 0;
-    }
-
     offset = entry->size;
 
     /* Avoid a seek in case we start writing at the beginning */
     if(offset == 0 && entry->metadataDirty) {
         writeoutMetadata(object);
         /* rewriteDiskEntry may change the entry */
-        entry = makeDiskEntry(object, 1, 0);
-        if(entry == NULL || !entry->writeable)
+        entry = makeDiskEntry(object, 0);
+        if(entry == NULL)
             return 0;
     }
 
@@ -1756,7 +1752,7 @@ writeoutMetadata(ObjectPtr object)
        (object->flags & OBJECT_LOCAL))
         return 0;
     
-    entry = makeDiskEntry(object, 1, 0);
+    entry = makeDiskEntry(object, 0);
     if(entry == NULL || entry == &negativeEntry)
         goto fail;
 
@@ -1897,6 +1893,7 @@ readDiskObject(char *filename, struct stat *sb)
         atime = -1;
         date = -1;
         last_modified = -1;
+        expires = -1;
     } else {
         goto fail;
     }
@@ -1947,7 +1944,7 @@ processObject(DiskObjectPtr dobjects, char *filename, struct stat *sb)
 
     dobject = readDiskObject((char*)filename, sb);
     if(dobject == NULL)
-        return 0;
+        return dobjects;
 
     if(!dobjects ||
        (c = strcmp(dobject->location, dobjects->location)) <= 0) {

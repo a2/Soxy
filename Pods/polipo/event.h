@@ -23,6 +23,7 @@ THE SOFTWARE.
 extern struct timeval current_time;
 extern struct timeval null_time;
 extern int diskIsClean;
+extern int fdEventNum;
 
 typedef struct _TimeEventHandler {
     struct timeval time;
@@ -52,7 +53,9 @@ typedef struct _Condition {
 
 void initEvents(void);
 void uninitEvents(void);
+#ifdef HAVE_FORK
 void interestingSignals(sigset_t *ss);
+#endif
 
 TimeEventHandlerPtr scheduleTimeEvent(int seconds,
                                       int (*handler)(TimeEventHandlerPtr),
@@ -85,4 +88,4 @@ conditionWait(ConditionPtr condition,
               int dsize, void *data);
 void unregisterConditionHandler(ConditionHandlerPtr);
 void abortConditionHandler(ConditionHandlerPtr);
-void polipo_exit(void);
+void polipoExit(void);

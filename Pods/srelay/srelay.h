@@ -438,7 +438,6 @@ extern int readpasswd __P((FILE *, bin_addr *, struct user_pass *));
 
 /* relay.c */
 extern void relay __P((SOCKS_STATE *));
-extern void relay_udp __P((SOCKS_STATE *state));
 
 /* socks.c */
 int wait_for_read __P((int, long));

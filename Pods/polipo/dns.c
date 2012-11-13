@@ -354,10 +354,8 @@ do_gethostbyname(char *origname,
         request.object = object;
         chandler = conditionWait(&object->condition, dnsHandler,
                                  sizeof(request), &request);
-        if(chandler == NULL) {
-            rc = ENOMEM;
+        if(chandler == NULL)
             goto fail;
-        }
         return 1;
     }
 #endif
@@ -445,11 +443,11 @@ dnsDelayedNotify(int error, GethostbynameRequestPtr request)
 AtomPtr
 rfc2732(AtomPtr name)
 {
-    char buf[38];
+    char buf[40]; /* 8*4 (hexdigits) + 7 (colons) + 1 ('\0') */
     int rc;
     AtomPtr a = NULL;
 
-    if(name->length < 38 && 
+    if(name->length < 40+2 && 
        name->string[0] == '[' && name->string[name->length - 1] == ']') {
         struct in6_addr in6a;
         memcpy(buf, name->string + 1, name->length - 2);
@@ -1146,7 +1144,7 @@ dnsReplyHandler(int abort, FdEventHandlerPtr event)
                 dnsGethostbynameFallback(id, message);
                 return 0;
             } else {
-                message = internAtomError(-rc, NULL);
+                message = internAtom(pstrerror(-rc));
             }
         } else {
             assert(name != NULL && id >= 0 && af >= 0);

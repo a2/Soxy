@@ -184,7 +184,7 @@ totalChunkArenaSize()
 }
 #else
 
-#ifdef MINGW
+#ifdef WIN32 /*MINGW*/
 #define MAP_FAILED NULL
 #define getpagesize() (64 * 1024)
 static void *
@@ -320,7 +320,7 @@ initChunks(void)
     chunkArenas = malloc(numArenas * sizeof(ChunkArenaRec));
     if(chunkArenas == NULL) {
         do_log(L_ERROR, "Couldn't allocate chunk arenas.\n");
-        polipo_exit();
+        exit (1);
     }
     for(i = 0; i < numArenas; i++) {
         chunkArenas[i].bitmap = EMPTY_BITMAP;

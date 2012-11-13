@@ -194,12 +194,16 @@ isWhitespace(const char *string)
 void *
 memrchr(const void *s, int c, size_t n)
 {
-    const unsigned char *ss = s;
-    unsigned char cc = c;
-    size_t i;
-    for(i = n - 1; i >= 0; i--)
-        if(ss[i] == cc)
-            return (void*)(ss + i);
+    if (n != 0)
+    {
+        const unsigned char *cp = (unsigned char *) s + n;
+        do
+        {
+            if (*(--cp) == (unsigned char) c)
+                return (void *) cp;
+        } while (--n != 0);
+    }
+    
     return NULL;
 }
 #endif
@@ -277,12 +281,6 @@ vsprintf_a(const char *f, va_list args)
 }
 
 #else
-
-/* This is not going to work if va_list is interesting.  But then, if you
-   have a non-trivial implementation of va_list, you should have va_copy. */
-#ifndef va_copy
-#define va_copy(a, b) do { a = b; } while(0)
-#endif
 
 char*
 vsprintf_a(const char *f, va_list args)
@@ -374,6 +372,7 @@ pstrerror(int e)
     case ESOCKS_REJECT_FAIL: s = "SOCKS request rejected or failed"; break;
     case ESOCKS_REJECT_IDENTD: s = "SOCKS request rejected: "
                                    "server couldn't connect to identd";
+        break;
     case ESOCKS_REJECT_UID_MISMATCH: s = "SOCKS request rejected: "
                                          "uid mismatch";
         break;
@@ -392,7 +391,7 @@ pstrerror(int e)
     default: s = NULL; break;
     }
     if(!s) s = strerror(e);
-#ifdef MINGW
+#ifdef WIN32 /*MINGW*/
     if(!s) {
         if(e >= WSABASEERR && e <= WSABASEERR + 2000) {
             /* This should be okay, as long as the caller discards the
@@ -415,6 +414,12 @@ time_t
 mktime_gmt(struct tm *tm)
 {
     return timegm(tm);
+}
+#elif defined(HAVE_MKGMTIME)
+time_t
+mktime_gmt(struct tm *tm)
+{
+    return _mkgmtime(tm);
 }
 #elif defined(HAVE_TM_GMTOFF)
 time_t

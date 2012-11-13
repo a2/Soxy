@@ -39,7 +39,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/ioctl.h>
 #include <sys/sockio.h>
 #include <net/if.h>
-#if defined(__IPHONE_2_0)
+#ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
 #include "route.h"
 #else
 #include <net/route.h>
@@ -71,10 +71,6 @@ static int get_ifconf(int, struct addrinfo *);
 #endif /* defined(LINUX) */
 
 #if defined(FREEBSD) || defined(SOLARIS) || defined(MACOSX) 
-
-#ifndef RTA_NUMBITS
-#define RTA_NUMBITS 8
-#endif
 
 #ifndef RTAX_DST
 #define RTAX_DST         0
@@ -159,6 +155,7 @@ int get_bind_addr(bin_addr *dest, struct addrinfo *ba)
   struct if_list        ifl[MAXNUM_IF];
 
   pid_t			pid;
+  ssize_t		n;
   struct rt_msghdr	*rtm;
   struct sockaddr	*sa, *rti_info[RTAX_MAX];
   struct sockaddr_in	*sin;
@@ -211,7 +208,7 @@ int get_bind_addr(bin_addr *dest, struct addrinfo *ba)
 
   close(sockfd);
 
-  i = 0;
+  i = ent = 0;
   for (ptr = buf; ptr < buf + ifc.ifc_len; ) {
     ifr = (struct ifreq *) ptr;
     len = sizeof(struct sockaddr);
@@ -279,7 +276,7 @@ int get_bind_addr(bin_addr *dest, struct addrinfo *ba)
   write(sockfd, rtm, rtm->rtm_msglen);
 
   do {
-    read(sockfd, rtm, sizeof buf);
+    n = read(sockfd, rtm, sizeof buf);
   } while (rtm->rtm_type != RTM_GET || rtm->rtm_seq != SEQ ||
 	   rtm->rtm_pid != pid);
 

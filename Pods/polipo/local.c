@@ -541,7 +541,7 @@ fillSpecialObject(ObjectPtr object, void (*fn)(FILE*, char*), void* closure)
         } while (rc < 0 && errno == EINTR);
         if(rc < 0) {
             do_log_error(L_ERROR, errno, "Couldn't restore signal mask");
-            polipo_exit();
+            polipoExit();
         }
         return;
     }
@@ -554,7 +554,7 @@ fillSpecialObject(ObjectPtr object, void (*fn)(FILE*, char*), void* closure)
         } while (rc < 0 && errno == EINTR);
         if(rc < 0) {
             do_log_error(L_ERROR, errno, "Couldn't restore signal mask");
-            polipo_exit();
+            polipoExit();
             return;
         }
 

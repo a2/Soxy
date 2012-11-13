@@ -6,13 +6,12 @@
 //  Copyright (c) 2012 Pandamonia LLC. All rights reserved.
 //
 
+#import "polipo.h"
 #import "SXHTTPProxyServer.h"
 #import "SXHTTPServer.h"
 #import "SXMainViewController.h"
 #import "SXSOCKSProxyServer.h"
 #import "TTTUnitOfInformationFormatter.h"
-
-extern int fdEventNum;
 
 static NSString *const SXMainViewControllerShowsProxyAutoConfigKey = @"MainViewControllerShowsProxyAutoConfig";
 

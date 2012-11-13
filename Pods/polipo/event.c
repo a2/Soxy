@@ -43,8 +43,6 @@ int diskIsClean = 1;
 
 static int fds_invalid = 0;
 
-static int exit_pipe[2] = {0,0};
-
 static inline int
 timeval_cmp(struct timeval *t1, struct timeval *t2)
 {
@@ -64,7 +62,7 @@ static inline void
 timeval_minus(struct timeval *d,
               const struct timeval *s1, const struct timeval *s2)
 {
-    if(s1->tv_usec > s2->tv_usec) {
+    if(s1->tv_usec >= s2->tv_usec) {
         d->tv_usec = s1->tv_usec - s2->tv_usec;
         d->tv_sec = s1->tv_sec - s2->tv_sec;
     } else {
@@ -143,13 +141,6 @@ initEvents()
     poll_fds = NULL;
     fdEvents = NULL;
     fdEventsLast = NULL;
-
-    if (pipe(exit_pipe) != 0) {
-        fprintf(stderr, "Could not create exit pipe\n");
-        return;
-    }
-
-    allocateFdEventNum(exit_pipe[0]);
 }
 
 void
@@ -189,9 +180,6 @@ uninitEvents(void)
     sa.sa_flags = 0;
     sigaction(SIGUSR2, &sa, NULL);
 #endif
-
-    close(exit_pipe[0]);
-    close(exit_pipe[1]);
 }
 
 #ifdef HAVE_FORK
@@ -639,8 +627,6 @@ eventLoop()
     FdEventHandlerPtr event;
     int fd0;
 
-    exitFlag = 0;
-    
     gettimeofday(&current_time, NULL);
 
     while(1) {
@@ -841,12 +827,8 @@ signalCondition(ConditionPtr condition)
     in_signalCondition--;
 }
 
-// -----------------
-
 void
-polipo_exit()
+polipoExit()
 {
     exitFlag = 3;
-    char c = 0;
-    write(exit_pipe[1], &c, 1);
 }

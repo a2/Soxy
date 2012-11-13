@@ -38,8 +38,6 @@ usage(char *argv0)
     fprintf(stderr, "  -c: specify the configuration file to use.\n");
 }
 
-extern ConfigVariablePtr configVariables;
-
 int
 polipo_main(int argc, char **argv)
 {
@@ -47,10 +45,6 @@ polipo_main(int argc, char **argv)
     int i;
     int rc;
     int expire = 0, printConfig = 0;
-
-    configFile = NULL;
-    pidFile = NULL;
-    configVariables = NULL;
 
     initAtoms();
     CONFIG_VARIABLE(daemonise, CONFIG_BOOLEAN, "Run as a daemon");
@@ -169,8 +163,6 @@ polipo_main(int argc, char **argv)
     }
 
     eventLoop();
-    
-    close(listener->fd);
 
     if(pidFile) unlink(pidFile->string);
     return 0;

@@ -24,10 +24,8 @@ THE SOFTWARE.
 #define _GNU_SOURCE
 #endif
 
+#ifndef WIN32
 #include <sys/param.h>
-
-#ifdef __MINGW32_VERSION
-#define MINGW
 #endif
 
 #include <limits.h>
@@ -37,13 +35,17 @@ THE SOFTWARE.
 #include <errno.h>
 #include <string.h>
 #include <assert.h>
+#ifndef _WIN32
 #include <unistd.h>
+#include <sys/time.h>
+#include <dirent.h>
+#else
+#include "dirent_compat.h"
+#endif
 #include <fcntl.h>
 #include <time.h>
-#include <sys/time.h>
 #include <sys/stat.h>
-#include <dirent.h>
-#ifndef MINGW
+#ifndef WIN32 /*MINGW*/
 #include <sys/mman.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -56,6 +58,10 @@ THE SOFTWARE.
 #include <sys/wait.h>
 #include <sys/ioctl.h>
 #include <signal.h>
+#endif
+
+#ifdef __MINGW32_VERSION
+#define MINGW
 #endif
 
 #ifndef MAP_ANONYMOUS
@@ -159,13 +165,20 @@ THE SOFTWARE.
 #endif
 #endif
 
+#ifdef __APPLE__
+#define HAVE_ASPRINTF
+#define HAVE_IPv6
+#define HAVE_TIMEGM
+#define HAVE_FFSL
+#endif
+
 #endif
 
 #if defined(i386) || defined(__mc68020__) || defined(__x86_64__)
 #define UNALIGNED_ACCESS
 #endif
 
-#ifndef MINGW
+#ifndef WIN32 /*MINGW*/
 #define HAVE_FORK
 #ifndef NO_SYSLOG
 #define HAVE_SYSLOG
@@ -179,6 +192,9 @@ THE SOFTWARE.
 #ifndef HAVE_REGEX
 #define NO_FORBIDDEN
 #endif
+#ifndef MINGW
+#define HAVE_MKGMTIME
+#endif
 #endif
 
 #ifdef HAVE_READV_WRITEV
@@ -188,6 +204,12 @@ THE SOFTWARE.
 
 #ifndef HAVE_FORK
 #define NO_REDIRECTOR
+#endif
+
+/* This is not going to work if va_list is interesting.  But then, if you
+   have a non-trivial implementation of va_list, you should have va_copy. */
+#ifndef va_copy
+#define va_copy(a, b) do { a = b; } while(0)
 #endif
 
 #include "mingw.h"

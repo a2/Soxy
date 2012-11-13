@@ -11,7 +11,6 @@
 #import "SXSocketServerSubclass.h"
 #import "srelay.h"
 
-extern u_long idle_timeout;
 extern void (*log_end_transfer_callback)(SOCK_INFO *si, LOGINFO *li, struct timeval elp, const char *prc_ip, const char *prc_port, const char *myc_ip, const char *myc_port, const char *mys_ip, const char *mys_port, const char *prs_ip, const char *prs_port);
 extern void (*log_tmp_transfer_callback)(SOCK_INFO *si, LOGINFO *li, ssize_t download, ssize_t upload);
 extern void (*msg_out_callback)__P((int, const char *, ...));

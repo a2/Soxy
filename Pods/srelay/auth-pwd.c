@@ -224,7 +224,7 @@ int checkpasswd(char *user, char *pass)
     /* null password matched */
     return(0);
   }
-  if (pwd->pw_passwd && *pwd->pw_passwd) {
+  if (*pwd->pw_passwd) {
     if (strcmp(pwd->pw_passwd, crypt(pass, pwd->pw_passwd)) == 0) {
       matched = 1;
     }

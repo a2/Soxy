@@ -1,19 +1,26 @@
 
+SPEC CHECKSUMS: 
+  BlocksKit: 4b6039288115dda2240526e6d1e45bfe28003ef1
+  Reachability: 1c8584c5f26fa776695efef95caaa50402c94cfb
+  FormatterKit/UnitOfInformationFormatter: 3592a4f49496927ab88318c9bbe84f1088518b7b
+  polipo: 1c1e018d0e093dc6886f12fdbd9aaa1f2d8b3652
+  srelay: 965c62d566ccdad5289267d91845b959d9cb42df
+  libffi: 8a1d9ba43c0c84b546b42c6f742714e73aa07ae1
+
 EXTERNAL SOURCES: 
-  srelay: 
-    :podspec: https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec
   polipo: 
     :podspec: https://raw.github.com/gist/3d61f497d3f174ee8632/polipo.podspec
+  srelay: 
+    :podspec: https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec
+
+DEPENDENCIES: 
+- BlocksKit
+- FormatterKit/UnitOfInformationFormatter
+- Reachability
+- polipo (from `https://raw.github.com/gist/3d61f497d3f174ee8632/polipo.podspec')
+- srelay (from `https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec')
 
 COCOAPODS: 0.15.2
-
-SPEC CHECKSUMS: 
-  srelay: 57d781cdc09371301aa30b0e72e1a31020c13f95
-  FormatterKit/UnitOfInformationFormatter: 3592a4f49496927ab88318c9bbe84f1088518b7b
-  BlocksKit: 4b6039288115dda2240526e6d1e45bfe28003ef1
-  libffi: 8a1d9ba43c0c84b546b42c6f742714e73aa07ae1
-  Reachability: 1c8584c5f26fa776695efef95caaa50402c94cfb
-  polipo: e380d7f7ce2c9d9c1c0848071110492d7cefd5f5
 
 PODS: 
 - BlocksKit (1.8.0): 
@@ -23,10 +30,3 @@ PODS:
 - libffi (3.0.11)
 - polipo (1.0.5)
 - srelay (0.4.5b5)
-
-DEPENDENCIES: 
-- BlocksKit
-- FormatterKit/UnitOfInformationFormatter
-- Reachability
-- polipo (from `https://raw.github.com/gist/3d61f497d3f174ee8632/polipo.podspec')
-- srelay (from `https://raw.github.com/gist/3d61f497d3f174ee8632/srelay.podspec')

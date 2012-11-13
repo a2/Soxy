@@ -159,7 +159,7 @@ expireServersHandler(TimeEventHandlerPtr event)
                           expireServersHandler, 0, NULL);
     if(!e) {
         do_log(L_ERROR, "Couldn't schedule server expiry.\n");
-        polipo_exit();
+        polipoExit();
     }
     return 1;
 }
@@ -1359,7 +1359,7 @@ httpServerDelayedFinish(HTTPConnectionPtr connection)
         if(!handler) {
             do_log(L_ERROR,
                    "Couldn't schedule delayed finish -- aborting.\n");
-            polipo_exit();
+            polipoExit();
         }
     }
 }
@@ -2656,7 +2656,13 @@ httpServerDirectHandlerCommon(int kind, int status,
     } else {
         notifyObject(object);
         if(status) {
-            httpServerFinish(connection, 1, 0);
+            if(connection->te == TE_CHUNKED ||
+               (end >= 0 && connection->offset < end)) {
+                do_log(L_ERROR, "Server dropped connection.\n");
+                httpServerAbort(connection, 1, 502, 
+                                internAtom("Server dropped connection"));
+            } else
+                httpServerFinish(connection, 1, 0);
             return 1;
         } else {
             return httpServerReadData(connection, 0);

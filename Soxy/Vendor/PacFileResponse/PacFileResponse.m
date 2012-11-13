@@ -123,7 +123,6 @@
         
         @try
         {
-        NSLog(@"write data to %p", fileHandle);
             [fileHandle writeData:(__bridge NSData *)headerData];
         }
         @catch (NSException *exception)

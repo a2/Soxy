@@ -144,7 +144,7 @@ int proto_socks(SOCKS_STATE *state)
     if (method_num > 0) {
       /* this implies this server is working in V5 mode */
       /* dummy read for flush socket buf */
-      timerd_read(state->s, buf, sizeof(buf), TIMEOUTSEC, 0);
+      r = timerd_read(state->s, buf, sizeof(buf), TIMEOUTSEC, 0);
       GEN_ERR_REP(state->s, 4);
       msg_out(warn, "V4 request is not accepted.");
       r = -1;
@@ -364,7 +364,7 @@ int socks_direct_conn(SOCKS_STATE *state)
   int	save_errno = 0;
 
   /* process direct connect/bind to destination */
-  state->r = cs = -1;
+  state->r = cs = acs = -1;
 
   /* process by_command request */
   switch (state->sr.req) {   /* request */
@@ -1138,7 +1138,7 @@ int connect_to_http(SOCKS_STATE *state)
     return(-1);
   }
 
-  resolv_host(&state->sr.dest, state->sr.port, &dest);
+  error = resolv_host(&state->sr.dest, state->sr.port, &dest);
 
   snprintf(buf, sizeof(buf), "CONNECT %s:%s HTTP/1.0\r\n\r\n",
 	   dest.host, dest.port);
@@ -1195,14 +1195,14 @@ int forward_connect(SOCKS_STATE *state)
 
   switch(state->rtbl.rl_meth) {
   case DIRECT:
-    resolv_host(&state->sr.dest, state->sr.port, &dest);
+    error = resolv_host(&state->sr.dest, state->sr.port, &dest);
     break;
   case PROXY:
-    resolv_host(&state->rtbl.prx[0].proxy,
+    error = resolv_host(&state->rtbl.prx[0].proxy,
 			state->rtbl.prx[0].pport, &dest);
     break;
   case PROXY1:
-    resolv_host(&state->rtbl.prx[1].proxy,
+    error = resolv_host(&state->rtbl.prx[1].proxy,
 			state->rtbl.prx[1].pport, &dest);
     break;
   default:

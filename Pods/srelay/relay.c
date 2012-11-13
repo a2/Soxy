@@ -189,6 +189,7 @@ int decode_socks_udp(UDP_ATTR *udp, u_char *buf)
 
 #define _addr_  udp->si.prs.addr
 
+  len = 0;
   udp->sv.len = 0;
   if (buf[2] != 0x00) {
     /* we do not support fragment */
@@ -316,49 +317,44 @@ void relay_tcp(SOCKS_STATE *state)
 	ri.from = state->r; ri.to = state->s; ri.flags = 0;
 	if ((wc = forward(&ri)) <= 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.dnl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, wc, 0);
-          }
-        }
-
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->r, &rfds);
       }
       if (FD_ISSET(state->r, &xfds)) {
 	ri.from = state->r; ri.to = state->s; ri.flags = MSG_OOB;
 	if ((wc = forward(&ri)) <= 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.dnl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, wc, 0);
-          }
-        }
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->r, &xfds);
       }
       if (FD_ISSET(state->s, &rfds)) {
 	ri.from = state->s; ri.to = state->r; ri.flags = 0;
 	if ((wc = forward(&ri)) <= 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.upl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, 0, wc);
-          }
-        }
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->s, &rfds);
       }
       if (FD_ISSET(state->s, &xfds)) {
 	ri.from = state->s; ri.to = state->r; ri.flags = MSG_OOB;
 	if ((wc = forward(&ri)) <= 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.upl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, 0, wc);
-          }
-        }
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->s, &xfds);
       }
       if (done > 0)
@@ -431,12 +427,11 @@ void relay_udp(SOCKS_STATE *state)
 	ri.dir = UP;
 	if ((wc = forward_udp(&ri, state->sr.udp, state->rtbl.rl_meth)) < 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.upl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, 0, wc);
-          }
-        }
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->sr.udp->d, &rfds);
       }
       if (state->sr.udp->u >= 0 && FD_ISSET(state->sr.udp->u, &rfds)) {
@@ -444,12 +439,11 @@ void relay_udp(SOCKS_STATE *state)
 	ri.dir = DOWN;
 	if ((wc = forward_udp(&ri, state->sr.udp, state->rtbl.rl_meth)) < 0)
 	  done++;
-	else {
+	else
+    {
 	  li.bc += wc; li.dnl += wc;
-          if (log_tmp_transfer_callback) {
-            log_tmp_transfer_callback(state->si, &li, wc, 0);
-          }
-        }
+      if (log_tmp_transfer_callback) log_tmp_transfer_callback(state->si, &li, wc, 0);
+    }
 	FD_CLR(state->sr.udp->d, &rfds);
       }
       /* packets on TCP channel may indicate
@@ -514,6 +508,7 @@ int log_transfer(SOCK_INFO *si, LOGINFO *li)
   char    myc_port[NI_MAXSERV], mys_port[NI_MAXSERV];
   char    prc_port[NI_MAXSERV], prs_port[NI_MAXSERV];
   struct timeval elp;
+  int     error = 0;
 
   memcpy(&elp, &li->end, sizeof(struct timeval));
   if (elp.tv_usec < li->start.tv_usec) {
@@ -525,19 +520,19 @@ int log_transfer(SOCK_INFO *si, LOGINFO *li)
   *myc_ip = *mys_ip = *prc_ip = *prs_ip = '\0';
   *myc_port = *mys_port = *prc_port = *prs_port = '\0';
 
-  getnameinfo(&si->myc.addr.sa, si->myc.len,
+  error = getnameinfo(&si->myc.addr.sa, si->myc.len,
 		      myc_ip, sizeof(myc_ip),
 		      myc_port, sizeof(myc_port),
 		      NI_NUMERICHOST|NI_NUMERICSERV);
-  getnameinfo(&si->mys.addr.sa, si->mys.len,
+  error = getnameinfo(&si->mys.addr.sa, si->mys.len,
 		      mys_ip, sizeof(mys_ip),
 		      mys_port, sizeof(mys_port),
 		      NI_NUMERICHOST|NI_NUMERICSERV);
-  getnameinfo(&si->prc.addr.sa, si->prc.len,
+  error = getnameinfo(&si->prc.addr.sa, si->prc.len,
 		      prc_ip, sizeof(prc_ip),
 		      prc_port, sizeof(prc_port),
 		      NI_NUMERICHOST|NI_NUMERICSERV);
-  getnameinfo(&si->prs.addr.sa, si->prs.len,
+  error = getnameinfo(&si->prs.addr.sa, si->prs.len,
 		      prs_ip, sizeof(prs_ip),
 		      prs_port, sizeof(prs_port),
 		      NI_NUMERICHOST|NI_NUMERICSERV);
@@ -548,8 +543,7 @@ int log_transfer(SOCK_INFO *si, LOGINFO *li)
 	  li->bc, li->upl, li->dnl,
 	  elp.tv_sec, elp.tv_usec);
 
-  if (log_end_transfer_callback) {
-    log_end_transfer_callback(si, li, elp, prc_ip, prc_port, myc_ip, myc_port, mys_ip, mys_port, prs_ip, prs_port);
-  }
+  if (log_end_transfer_callback) log_end_transfer_callback(si, li, elp, prc_ip, prc_port, myc_ip, myc_port, mys_ip, mys_port, prs_ip, prs_port);
+
   return(0);
 }

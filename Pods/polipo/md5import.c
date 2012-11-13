@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#if !defined(HAS_STDINT_H) && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
 #define HAS_STDINT_H
 #else
 typedef unsigned int my_uint32_t;
